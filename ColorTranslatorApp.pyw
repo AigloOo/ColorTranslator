@@ -21,51 +21,68 @@ class ColorTranslatorApp:
         self.logo = tk.PhotoImage(file="logo.png")  # Assurez-vous de remplacer ceci par le chemin de votre fichier logo
         self.root.iconphoto(True, self.logo)
 
+        # Palette de couleurs (fond blanc, texte noir)
+        self.bg_color = "white"
+        self.text_color = "black"
+        self.entry_bg_color = "white"
+        self.entry_text_color = "black"
+        self.button_bg_color = "#4CAF50"  # Vert
+        self.button_text_color = "black"  # Texte en noir
+
         # Interface
         self.create_widgets()
 
     def create_widgets(self):
-        # Appliquer un thème plus clair (adapta)
-        self.root.set_theme("adapta")
+        # Appliquer un thème plus sobre
+        self.root.set_theme("arc")
 
         # Emoji pour le titre
-        emoji_label = tk.Label(self.root, text="🌈 ColorTranslator 🎨", font=("Helvetica", 16))
+        emoji_label = tk.Label(self.root, text="🌈 ColorTranslator 🎨", font=("Helvetica", 18), bg=self.bg_color, fg=self.text_color)
         emoji_label.grid(column=0, row=0, columnspan=3, pady=10)
 
         # Labels
-        ttk.Label(self.root, text="De type:").grid(column=0, row=1, padx=10, pady=10, sticky=tk.W)
-        ttk.Label(self.root, text="Vers type:").grid(column=0, row=2, padx=10, pady=10, sticky=tk.W)
-        ttk.Label(self.root, text="Couleur à convertir:").grid(column=0, row=3, padx=10, pady=10, sticky=tk.W)
-        ttk.Label(self.root, text="Couleur convertie:").grid(column=0, row=5, padx=10, pady=10, sticky=tk.W)
+        ttk.Label(self.root, text="De type:", background=self.bg_color, foreground=self.text_color).grid(column=0, row=1, padx=10, pady=5, sticky=tk.W)
+        ttk.Label(self.root, text="Vers type:", background=self.bg_color, foreground=self.text_color).grid(column=0, row=2, padx=10, pady=5, sticky=tk.W)
+        ttk.Label(self.root, text="Couleur à convertir:", background=self.bg_color, foreground=self.text_color).grid(column=0, row=3, padx=10, pady=5, sticky=tk.W)
+        ttk.Label(self.root, text="Couleur convertie:", background=self.bg_color, foreground=self.text_color).grid(column=0, row=5, padx=10, pady=5, sticky=tk.W)
 
         # Combobox pour le choix du type de couleur (de et vers)
-        from_combobox = ttk.Combobox(self.root, values=("RGB", "HEX", "CMYK", "LAB", "HSV"), textvariable=self.from_color_type_var)
-        from_combobox.grid(column=1, row=1, padx=10, pady=10, sticky=tk.W)
+        from_combobox = ttk.Combobox(self.root, values=("RGB", "HEX", "CMYK", "LAB", "HSV"), textvariable=self.from_color_type_var, state="readonly", style="Combo.TCombobox")
+        from_combobox.grid(column=1, row=1, padx=10, pady=5, sticky=tk.W)
         from_combobox.set("RGB")  # Définir la valeur par défaut
 
-        to_combobox = ttk.Combobox(self.root, values=("RGB", "HEX", "CMYK", "LAB", "HSV"), textvariable=self.to_color_type_var)
-        to_combobox.grid(column=1, row=2, padx=10, pady=10, sticky=tk.W)
+        to_combobox = ttk.Combobox(self.root, values=("RGB", "HEX", "CMYK", "LAB", "HSV"), textvariable=self.to_color_type_var, state="readonly", style="Combo.TCombobox")
+        to_combobox.grid(column=1, row=2, padx=10, pady=5, sticky=tk.W)
         to_combobox.set("RGB")  # Définir la valeur par défaut
 
         # Entry pour la couleur à convertir
-        entry_color = ttk.Entry(self.root, textvariable=self.input_color_var, width=20)
-        entry_color.grid(column=1, row=3, padx=10, pady=10, sticky=tk.W)
+        entry_color = ttk.Entry(self.root, textvariable=self.input_color_var, width=20, background=self.entry_bg_color, foreground=self.entry_text_color)
+        entry_color.grid(column=1, row=3, padx=10, pady=5, sticky=tk.W)
 
         # Bouton de conversion
-        convert_button = ttk.Button(self.root, text="Convertir 🔄", command=self.convert_color)
-        convert_button.grid(column=2, row=3, padx=10, pady=10, sticky=tk.W)
+        convert_button = ttk.Button(self.root, text="Convertir 🔄", command=self.convert_color, style="Button.TButton")
+        convert_button.grid(column=2, row=3, padx=10, pady=5, sticky=tk.W)
 
         # Label pour afficher la couleur convertie
-        result_label = ttk.Label(self.root, textvariable=self.converted_color_var)
-        result_label.grid(column=1, row=5, columnspan=2, pady=10, sticky=tk.W)
+        result_label = ttk.Label(self.root, textvariable=self.converted_color_var, background=self.bg_color, foreground=self.text_color)
+        result_label.grid(column=1, row=5, columnspan=2, pady=5, sticky=tk.W)
 
         # Bouton de copie
-        copy_button = ttk.Button(self.root, text="Copier 📋", command=self.copy_to_clipboard)
+        copy_button = ttk.Button(self.root, text="Copier 📋", command=self.copy_to_clipboard, style="Button.TButton")
         copy_button.grid(column=0, row=6, columnspan=3, pady=10, sticky=tk.W)
 
         # Bouton pour choisir une couleur avec la roue des couleurs
-        color_picker_button = ttk.Button(self.root, text="Choisir une couleur 🎨", command=self.choose_color)
-        color_picker_button.grid(column=0, row=7, columnspan=3, pady=10, sticky=tk.W)
+        color_picker_button = ttk.Button(self.root, text="Choisir une couleur 🎨", command=self.choose_color, style="Button.TButton")
+        color_picker_button.grid(column=0, row=7, columnspan=3, pady=5, sticky=tk.W)
+
+        # Mention pour AIglo de la AIgloCorp
+        ai_label = ttk.Label(self.root, text="Fait par AIglo de la AIgloCorp", font=("Helvetica", 10), background=self.bg_color, foreground=self.text_color)
+        ai_label.grid(column=0, row=8, columnspan=3, pady=10, sticky=tk.W)
+
+        # Appliquer le style aux boutons et aux combobox
+        self.root.style = ttk.Style()
+        self.root.style.configure("Combo.TCombobox", background=self.entry_bg_color, foreground=self.entry_text_color)
+        self.root.style.configure("Button.TButton", background=self.button_bg_color, foreground=self.button_text_color)
 
     def convert_color(self):
         from_color_type = self.from_color_type_var.get()
@@ -160,6 +177,6 @@ class ColorTranslatorApp:
             self.convert_color()
 
 if __name__ == "__main__":
-    root = ThemedTk(theme="adapta")
+    root = ThemedTk(theme="arc")
     app = ColorTranslatorApp(root)
     root.mainloop()
