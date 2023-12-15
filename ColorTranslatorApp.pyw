@@ -4,7 +4,7 @@ from colormath.color_objects import sRGBColor, CMYKColor
 from colormath.color_conversions import convert_color
 from tkcolorpicker import askcolor
 import pyperclip
-from ttkthemes import ThemedTk  # Assurez-vous d'installer cette bibliothèque via "pip install ttkthemes"
+from ttkthemes import ThemedTk
 
 class ColorTranslatorApp:
     def __init__(self, root):
